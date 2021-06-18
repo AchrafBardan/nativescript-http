@@ -1,5 +1,5 @@
 {
-  "name": "@achrafbardan/nativescript-http",
+  "name": "nativescript-http",
   "version": "1.0.0",
   "description": "Default nativescript http module with authentication fail callback etc.",
   "main": "router.common.js",
