@@ -1,10 +1,25 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.hello = void 0;
-var hello = (function () {
-    function hello() {
+exports.HttpClient = void 0;
+var core_1 = require("@nativescript/core");
+var HttpClient = (function () {
+    function HttpClient(options) {
+        this.unauthenticatedStatusCodes = options.unauthenticatedStatusCodes;
     }
-    return hello;
+    HttpClient.prototype.request = function (options) {
+        var _this = this;
+        return core_1.Http.request(options).then(function (response) {
+            _this.unauthenticatedStatusCodes.forEach(function (httpCode) {
+                if (httpCode === response.statusCode) {
+                    _this.unauthenticatedCallback(response);
+                }
+            });
+            return response;
+        }).catch(function (error) {
+            return error;
+        });
+    };
+    return HttpClient;
 }());
-exports.hello = hello;
+exports.HttpClient = HttpClient;
 //# sourceMappingURL=http.common.js.map
