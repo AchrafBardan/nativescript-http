@@ -1,6 +1,6 @@
 {
   "name": "nativescript-http",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Default nativescript http module with authentication fail callback etc.",
   "main": "http.common.js",
   "types": "index.d.ts",
@@ -18,7 +18,9 @@
   ],
   "scripts": {
     "tsc": "tsc -skipLibCheck",
-    "build": "npm i && npm run tsc"
+    "build": "npm i && npm run tsc",
+    "demo.clean": "cd ../demo && ns platform remove android && ns platform remove ios && rm -rf node_modules",
+    "demo.ios": "npm run build && cd ../demo && npm i ../src && ns debug ios --no-hmr --clean"
   },
   "repository": {
     "type": "git",
