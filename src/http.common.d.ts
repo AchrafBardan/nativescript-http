@@ -14,14 +14,13 @@ export interface HttpClientOptions {
     unauthenticatedStatusCodes?: Array<number>;
     unauthenticatedCallback?: (response: HttpClientResponse) => void;
     baseUrl?: string;
+    defaultHeaders?: any;
 }
 export declare class HttpClient {
     private unauthenticatedStatusCodes;
     private unauthenticatedCallback;
-    /**
-     * When the base url is set the request url will be added to the base
-     */
     private baseUrl;
+    private defaultHeaders;
     constructor(options: HttpClientOptions);
     request(options: HttpClientEntry): Promise<HttpClientResponse>;
     private getUrl;
