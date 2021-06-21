@@ -23,6 +23,6 @@ https://docs.nativescript.org/ui/components.
     You can learn more about the NativeScript core theme at https://github.com/nativescript/theme
     -->
     <StackLayout class="p-20">
-        <Button text="TAP" tap="{{ onTap }}" class="-primary" />
+        <Button text="TAP" tap="{{ makeRequest }}" class="-primary" />
     </StackLayout>
 </Page>

@@ -9,12 +9,15 @@ import { HttpClient } from 'nativescript-http'
 
 
 global.http = new HttpClient({
-  baseUrl: 'https://achrafbardan.me',
+  baseUrl: 'https://jsonplaceholder.typicode.com',
   unauthenticatedCallback: (response) => {
     console.log(response.content);
   },
   // When an http response code is inside this array the above function will run
-  unauthenticatedStatusCodes: [201]
+  unauthenticatedStatusCodes: [200],
+  defaultHeaders: {
+    "Authorization": "<type> <credentials>"
+  }
 });
 
 

@@ -22,25 +22,28 @@ export interface HttpClientOptions {
   unauthenticatedStatusCodes?: Array<number>;
   unauthenticatedCallback?: (response: HttpClientResponse) => void;
   baseUrl?: string;
+  defaultHeaders?: any;
 }
 export class HttpClient {
   private unauthenticatedStatusCodes: Array<number>;
   private unauthenticatedCallback: (response: HttpClientResponse) => void;
-
-  /**
-   * When the base url is set the request url will be added to the base
-   */
   private baseUrl: string;
-  // TODO: base url
-  // TODO: content type json when set
+  private defaultHeaders: any;
+
   constructor (options: HttpClientOptions) {
     this.unauthenticatedStatusCodes = options.unauthenticatedStatusCodes ? options.unauthenticatedStatusCodes : [];
     this.unauthenticatedCallback = options.unauthenticatedCallback ? options.unauthenticatedCallback : () => {};
     this.baseUrl = options.baseUrl ? options.baseUrl : '';
+    this.defaultHeaders = options.defaultHeaders ? options.defaultHeaders : {};
   }
 
   request (options: HttpClientEntry) : Promise<HttpClientResponse> {
     options.url = this.getUrl(options);
+
+    // add defaultHeaders
+    options.headers = Object.assign(options.headers, this.defaultHeaders);
+
+    console.log(options);
     return Http.request(options).then(response => {
       // Check if status code matches one of the unauthenticated codes
       this.unauthenticatedStatusCodes.forEach((httpCode) => {
