@@ -34,14 +34,18 @@ export class HttpClient {
     this.unauthenticatedStatusCodes = options.unauthenticatedStatusCodes ? options.unauthenticatedStatusCodes : [];
     this.unauthenticatedCallback = options.unauthenticatedCallback ? options.unauthenticatedCallback : () => {};
     this.baseUrl = options.baseUrl ? options.baseUrl : '';
-    this.defaultHeaders = options.defaultHeaders ? options.defaultHeaders : {};
+    this.defaultHeaders = options.defaultHeaders ? options.defaultHeaders : undefined;
   }
 
   request (options: HttpClientEntry) : Promise<HttpClientResponse> {
     options.url = this.getUrl(options);
 
     // add defaultHeaders
-    options.headers = Object.assign(options.headers, this.defaultHeaders);
+    if (this.defaultHeaders !== undefined && options.headers) {
+      options.headers = Object.assign(options.headers, this.defaultHeaders);
+    } else if (this.defaultHeaders !== undefined && !options.headers) {
+      options.headers = this.defaultHeaders;
+    }
 
     console.log(options);
     return Http.request(options).then(response => {

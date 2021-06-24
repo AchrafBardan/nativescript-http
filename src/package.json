@@ -20,7 +20,8 @@
     "tsc": "tsc -skipLibCheck",
     "build": "npm i && npm run tsc",
     "demo.clean": "cd ../demo && ns platform remove android && ns platform remove ios && rm -rf node_modules",
-    "demo.ios": "npm run build && cd ../demo && npm i ../src && ns debug ios --no-hmr --clean"
+    "demo.ios": "npm run build && cd ../demo && npm i ../src && ns debug ios --no-hmr --clean",
+    "test": "tsc && mocha"
   },
   "repository": {
     "type": "git",
