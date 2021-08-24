@@ -8,6 +8,14 @@ var HttpClient = /** @class */ (function () {
         this.unauthenticatedCallback = options.unauthenticatedCallback ? options.unauthenticatedCallback : function () { };
         this.baseUrl = options.baseUrl ? options.baseUrl : '';
         this.defaultHeaders = options.defaultHeaders ? options.defaultHeaders : undefined;
+        if (options.bearerToken === String) {
+            this.bearerToken = function () {
+                return options.bearerToken.toString();
+            };
+        }
+        else {
+            this.bearerToken = options.bearerToken;
+        }
     }
     HttpClient.prototype.request = function (options) {
         var _this = this;
@@ -18,6 +26,9 @@ var HttpClient = /** @class */ (function () {
         }
         else if (this.defaultHeaders !== undefined && !options.headers) {
             options.headers = this.defaultHeaders;
+        }
+        if (this.bearerToken) {
+            options.headers.Authorization = 'Bearer ' + this.bearerToken();
         }
         console.log(options);
         return core_1.Http.request(options).then(function (response) {
