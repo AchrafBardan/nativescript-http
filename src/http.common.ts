@@ -23,18 +23,30 @@ export interface HttpClientOptions {
   unauthenticatedCallback?: (response: HttpClientResponse) => void;
   baseUrl?: string;
   defaultHeaders?: any;
+  bearerToken: () => string;
 }
 export class HttpClient {
   private unauthenticatedStatusCodes: Array<number>;
   private unauthenticatedCallback: (response: HttpClientResponse) => void;
   private baseUrl: string;
   private defaultHeaders: any;
+  private bearerToken?: () => string | string;
 
-  constructor (options: HttpClientOptions) {
+  constructor (options?: HttpClientOptions) {
     this.unauthenticatedStatusCodes = options.unauthenticatedStatusCodes ? options.unauthenticatedStatusCodes : [];
     this.unauthenticatedCallback = options.unauthenticatedCallback ? options.unauthenticatedCallback : () => {};
     this.baseUrl = options.baseUrl ? options.baseUrl : '';
     this.defaultHeaders = options.defaultHeaders ? options.defaultHeaders : undefined;
+    
+    if(options.bearerToken === String) {
+      this.bearerToken = () : string => {
+        return options.bearerToken.toString();
+      }
+    }
+    else {
+      this.bearerToken = options.bearerToken;
+    }
+    
   }
 
   request (options: HttpClientEntry) : Promise<HttpClientResponse> {
@@ -45,6 +57,10 @@ export class HttpClient {
       options.headers = Object.assign(options.headers, this.defaultHeaders);
     } else if (this.defaultHeaders !== undefined && !options.headers) {
       options.headers = this.defaultHeaders;
+    }
+
+    if(this.bearerToken){
+      options.headers.Authorization = 'Bearer '+ this.bearerToken();
     }
 
     console.log(options);

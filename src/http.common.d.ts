@@ -15,13 +15,15 @@ export interface HttpClientOptions {
     unauthenticatedCallback?: (response: HttpClientResponse) => void;
     baseUrl?: string;
     defaultHeaders?: any;
+    bearerToken: () => string;
 }
 export declare class HttpClient {
     private unauthenticatedStatusCodes;
     private unauthenticatedCallback;
     private baseUrl;
     private defaultHeaders;
-    constructor(options: HttpClientOptions);
+    private bearerToken?;
+    constructor(options?: HttpClientOptions);
     request(options: HttpClientEntry): Promise<HttpClientResponse>;
     private getUrl;
 }
